@@ -14,9 +14,9 @@ use Symfony\Component\HttpFoundation\Session\Session;
 class ProductController extends AbstractController
 {
     /**
-     * @Route("/product", name="product", methods={"GET"})
+     * @Route("/product", name="products", methods={"GET"})
      */
-    public function index(): Response
+    public function viewProducts(): Response
     {
         
         $products = $this->getProducts();
@@ -27,18 +27,42 @@ class ProductController extends AbstractController
         ]);
     }
     
+    /**
+     * @Route("/product/{productId}", methods={"GET"})
+     */
+    public function getProduct(int $productId): Response
+    {
+        
+        $product = $this->getDoctrine()->getManager()->getRepository(Product::class)->find($productId);
+        $product = $this->formatProduct($product);
+        
+        return $this->render('product/product.html.twig', [
+            'controller_name' => 'ProductController',
+            'product' => $product
+        ]);
+    }
+    
     public function getProducts() {
         $repository=$this->getDoctrine()->getManager()->getRepository(Product::class);
+        if(!$repository) {
+            throw new \Exception("database Repository now available");
+        }
         $products=$repository->findAll();
         foreach($products as $product) {
-            $productReturn["name"] = $product->getName();
-            $productReturn["price"] = $product->getPrice();
-            $productReturn["quantity"] = $product->getQuantity();
-            
-            $output[] = $productReturn;
+            $output[] = $this->formatProduct($product);
         }
         return $output;
     }
+    
+    private function formatProduct($product) {
+        $productReturn["id"] = $product->getId();
+        $productReturn["name"] = $product->getName();
+        $productReturn["price"] = $product->getPrice();
+        $productReturn["quantity"] = $product->getQuantity();
+        return $productReturn;
+    }
+    
+    
     /**
      * @Route("/product", name="create_product", methods={"POST"})
      */

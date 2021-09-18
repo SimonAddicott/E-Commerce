@@ -11,5 +11,12 @@
 <div class="example-wrapper">
     <h1>Welcome.</h1>
     <img width="50%" stye="" src="https://m.media-amazon.com/images/I/61YFfAy+t4L._SL1500_.jpg"/>
+    <h2>Latest Products</h2>
+    <ul>
+    {% for product in products %}
+        <li><b><a href='/product/{{ product.id }}'>{{ product.name }} - £{{ product.price }}</a></b></li>
+    {% endfor %}
+    </ul>
+    
 </div>
 {% endblock %}

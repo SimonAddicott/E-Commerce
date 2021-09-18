@@ -12,11 +12,15 @@
     <h1>Hello {{ controller_name }}! ✅</h1>
     
     <h2>Products</h2>
-    <ul>
-    {% for product in products %}
-        <li><b>{{ product.name }} - £{{ product.price }}</b></li>
-    {% endfor %}
-    </ul>
+    {% if products|length > 0 %}
+    	 <ul>
+	    {% for product in products %}
+	        <li><b>{{ product.name }} - £{{ product.price }}</b></li>
+	    {% endfor %}
+	    </ul>
+    {% else %}
+	   <b>No new products!</b>
+    {% endif %}
     
     <h2>Create a product</h2>
     <form method="POST" action="/product">
