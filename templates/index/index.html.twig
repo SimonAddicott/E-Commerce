@@ -13,9 +13,7 @@
     <h1>Welcome.</h1>
     {% else %}
     <h1>Welcome {{ user.email }}</h1>
-    {{ dump(user) }}
     {% endif %}
-    <img width="50%" stye="" src="https://m.media-amazon.com/images/I/61YFfAy+t4L._SL1500_.jpg"/>
     <h2>Latest Products</h2>
     <ul>
     {% for product in products %}

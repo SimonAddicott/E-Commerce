@@ -13,9 +13,12 @@
             {#{{ encore_entry_script_tags('app') }}#}
         {% endblock %}
         <script src="https://use.fontawesome.com/32e775a780.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css" integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <style>
         	* {
         		font-family: Arial, Helvetica, sans-serif;
+        		margin: 0;
+  				padding: 0;
         	}
         	.header a {
         		text-decoration: none; 
@@ -28,28 +31,31 @@
         </style>
     </head>
     <body>
-    	<div class='header' style="background-color: #006a3a; padding: 50px 0 50px 0; text-align: center; color: white;">
+    	<div class='header' style="background-color: #006a3a; padding: 50px 10px 50px 10px; text-align: center; color: white;">
     		
     		<div style='float: left; width: auto;'>
     		
 	    		
-	    			<a href='/'>Home</a> &nbsp;
-	    		
-	    		
-	    		<a href='/product'>Product</a>&nbsp;
-	    		<a href='/admin'>Admin Control</a>&nbsp;
+	    		<a href='/'>Home <i class="fa-solid fa-house"></i></a> &nbsp;
+	    		<a href='/product'>Product <i class="fa-solid fa-list"></i></a>&nbsp;
+	    		{% if is_granted('ROLE_ADMIN') %}
+	    			<a href='/admin'>Admin Control <i class="fa-solid fa-toolbox"></i></a>&nbsp;
+	    		{% endif %}
     		
     		</div>
     		
-    		<div style='float: left;width: auto;'>
-    			<b>My Shop</b>
-    		</div>
+    		
     		
     		<div style='float: right;width: auto;'>
     		
-	    		<a href='/checkout'>Checkout<i class="fas fa-shopping-basket"></i></a>&nbsp;
-	    		<a href='/account'>My Account</a>&nbsp;
-	    		<a href='/logout'>Logout</a>&nbsp;
+	    		<a href='/checkout'>Checkout <i class="fas fa-shopping-basket"></i></a>&nbsp;
+	    		<a href='/account'>My Account <i class="fa-solid fa-user"></i></a>&nbsp;
+	    		
+	    		{% if is_granted('ROLE_USER') %}
+	    		<a href='/logout'>Logout <i class="fa-solid fa-right-from-bracket"></i></a>&nbsp;
+	    		{% else %}
+	    		<a href='/login'>Login <i class="fa-solid fa-right-to-bracket"></i></a>&nbsp;
+	    		{% endif %}
     		
     		</div>
     	</div>
