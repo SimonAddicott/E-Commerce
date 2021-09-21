@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ProductManagementController!{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+<div class="example-wrapper">
+    <h1>Product Management</h1>
+    <h3>{{ product.name }}</h3>
+    <form method="post" action="/admin/product/{{product.id}}"
+    Name<br/>
+    <input type="text" value="{{product.name}}" /><br/>
+    Price<br/>
+    <input type="text" value="{{product.price}}" /><br/>
+    Quantity <br/>
+    <input type="text" value="{{product.quantity}}" /><br/><br/>
+    
+
+</div>
+{% endblock %}

@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Control Panel{% endblock %}
+{% block title %}Hello ProductManagementController!{% endblock %}
 
 {% block body %}
 <style>
@@ -9,8 +9,8 @@
 </style>
 
 <div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-        <div class="">
+    <h1>Product Management</h1>
+		<div class="">
              <h2>Create a product</h2>
 		    <form method="POST" action="/product">
 		    	<input type="text" placeholder="Name" name="name" />
@@ -19,19 +19,5 @@
 		    	<input type="submit" />
 		    </form>
         </div>
-        
-        <h2>Orders</h2>
-        <ul>
-        	<li>Open orders</li>
-        	<li>Order history</li>
-        	<li></li>
-        </ul>
-        
-        <h2>Product management</h2>
-        <ul>
-	    {% for product in products %}
-	        <li><b><a href='/admin/product/{{ product.id }}'>{{ product.name }} - £{{ product.price }}</a></b></li>
-	    {% endfor %}
-   		 </ul>
 </div>
 {% endblock %}

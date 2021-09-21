@@ -30,7 +30,7 @@ class ProductController extends AbstractController
     /**
      * @Route("/product/{productId}", methods={"GET"})
      */
-    public function getProduct(int $productId): Response
+    public function viewProduct(int $productId): Response
     {
         
         $product = $this->getDoctrine()->getManager()->getRepository(Product::class)->find($productId);
@@ -52,6 +52,13 @@ class ProductController extends AbstractController
             $output[] = $this->formatProduct($product);
         }
         return $output;
+    }
+    
+    public function getProduct(int $productId) 
+    {
+        $product = $this->getDoctrine()->getManager()->getRepository(Product::class)->find($productId);
+        $product = $this->formatProduct($product);
+        return $product;
     }
     
     private function formatProduct($product) {
