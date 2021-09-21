@@ -5,6 +5,7 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
 use App\Controller\ProductController;
 use Symfony\Component\HttpFoundation\RequestStack;
 use App\Entity\Product;
@@ -15,10 +16,14 @@ class IndexController extends AbstractController
     
     protected $productRepository;
     
-    public function __construct(RequestStack $requestStack)
+    /**
+     * @var Security
+     */
+    private $security;
+    
+    public function __construct(Security $security)
     {
-        $this->requestStack = $requestStack;
-        
+        $this->security = $security;
     }
     
     /**
@@ -28,20 +33,21 @@ class IndexController extends AbstractController
     {
         $productRepository = $this->getDoctrine()->getManager()->getRepository(Product::class);
         $products = $productRepository->findAll();
-        $isLoggedIn = $this->isLoggedIn();
+        $user = $this->isLoggedIn();
         
         return $this->render('index/index.html.twig', [
             'controller_name' => 'IndexController',
             'products' => $products,
-            'is_logged_in' => $isLoggedIn
+            'user' => $user
         ]);
     }
     
     public function isLoggedIn() {
-        $session = $this->requestStack->getCurrentRequest()->getSession();
-        $user = $session->get('User');
+        //$session = $this->requestStack->getCurrentRequest()->getSession();
+        
+        $user = $this->security->getUser();
         if($user) {
-            return true;
+            return $user;
         }
 
         return false;
