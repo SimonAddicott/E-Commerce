@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello CheckoutController!{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+    th,td { padding: 15px; }
+</style>
+
+<div class="example-wrapper">
+    <h1>Check out:</h1>
+	<br/><br/>
+	<h3>Your basket:</h3/>
+	
+	{% if basket is empty %}
+	<p>No items in your basket!</p>
+	{% else %}
+	<table>
+		<thead>
+		  <tr>
+		    <th class="tg-0pky">Name.</th>
+		    <th></th>
+		    <th class="tg-0lax">Price.</th>
+		    <th class="tg-0lax">Quantity</th>
+		  </tr>
+		</thead>
+		<tbody>
+		{% for product in basket.products %}
+		  <tr>
+		    <td class="tg-0lax">{{product.product.name}}</td>
+		    <td></td>
+		    <td class="tg-0lax">£{{product.product.price}}</td>
+		    <td class="tg-0lax">{{product.quantity}}</td>
+		  </tr>
+		{% endfor %}
+		<tr>
+			<td class="tg-0lax"></td>
+			<td class="tg-0lax"></td>
+			<td class="tg-0lax"></td>
+		</tr>
+		<tr>
+		    <td class="tg-0lax"><b>Total</b></td>
+		    <td class="tg-0lax"></td>
+		    <td class="tg-0lax">£{{ basket.basket_total }}</td>
+		  </tr>
+		</tbody>
+	</table>
+	{% endif %}
+</div>
+{% endblock %}
