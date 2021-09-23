@@ -28,13 +28,13 @@
     
 		    <input type="submit" value="Add to cart"/>
 		    
-		    {% if app.request.query.get("added") is defined %}
+		    {% if app.request.query.get("added") is not null  %}
 		        <br/>
 		    	<p>Item has been added to your basket. <br/>To complete your order, please go to the <a href='/checkout'>checkout.</a></p>
 		    {% endif %}
 		    
 		</form>
 		
-		{{ dump(app.session.all) }}
+		
 </div>
 {% endblock %}
