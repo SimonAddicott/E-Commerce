@@ -15,7 +15,7 @@
     {% if products|length > 0 %}
     	 <ul>
 	    {% for product in products %}
-	        <li><b>{{ product.name }} - £{{ product.price }}</b></li>
+	        <li><b><a href='/product/{{ product.id }}'>{{ product.name }} - £{{ product.price }}</a></b></li>
 	    {% endfor %}
 	    </ul>
     {% else %}

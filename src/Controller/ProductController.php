@@ -69,6 +69,23 @@ class ProductController extends AbstractController
         return $productReturn;
     }
     
+    public function updateProduct($productId, $params) {
+        $entityManager = $this->getDoctrine()->getManager();
+        $repository = $entityManager->getRepository(Product::class);
+        
+        $product = $repository->find($productId);
+        $product->setName($params['name']);
+        $product->setPrice($params['price']);
+        $product->setQuantity($params['quantity']);
+        
+        $entityManager->persist($product);
+       
+        $entityManager->flush();
+        
+        // how to check for errors ?
+        return true;
+    }
+    
     
     /**
      * @Route("/product", name="create_product", methods={"POST"})

@@ -10,15 +10,27 @@
 
 <div class="example-wrapper">
     <h1>Product Management</h1>
-    <h3>{{ product.name }}</h3>
-    <form method="post" action="/admin/product/{{product.id}}"
+    <h3>Update: {{ product.name }}</h3>
+    <form method="post" action="/admin/product/{{product.id}}">
     Name<br/>
-    <input type="text" value="{{product.name}}" /><br/>
+    <input type="text" name= "name" value="{{product.name}}" /><br/>
     Price<br/>
-    <input type="text" value="{{product.price}}" /><br/>
+    <input type="text" name= "price" value="{{product.price}}" /><br/>
     Quantity <br/>
-    <input type="text" value="{{product.quantity}}" /><br/><br/>
     
+    <input type="hidden" name="_csrf_token"
+           value="{{ csrf_token('authenticate') }}"
+    >
+    
+    <input type="text" name= "quantity" value="{{product.quantity}}" /><br/><br/>
+    
+    <input type='submit' value='Update'/>
+    {% if error is empty %}
+    <p style='color: green;'>Successfully updated.</p>
+    {% else %}
+    <p style='color: red;'>Unable to update - {{ error }}</p>
+    {% endif %}
+    </form>
 
 </div>
 {% endblock %}

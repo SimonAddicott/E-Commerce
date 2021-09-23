@@ -12,12 +12,29 @@
     <h1>{{ product.name }}</h1>
     
     <h2>Products</h2>
-    	 <ul>
-	        <li><b>{{ product.name }}</b></li>
-	        <li><b>&pound;{{ product.price }}</b></li>
-	        <li><b>{{ product.quantity }}</b></li>
-	    </ul>
-	    <input type="submit" value="Add to cart"/>
-
+    	<form method='post' action='/basket'>
+	    	 <ul>
+		        <li><b>{{ product.name }}</b></li>
+		        <li><b>&pound;{{ product.price }}</b></li>
+		        <li><b>{{ product.quantity }}</b></li>
+		    </ul>
+		    
+		    <input type="hidden" name="product_id" value="{{ product.id }}">
+		    
+		     <input type="hidden" name="_csrf_token"
+           		value="{{ csrf_token('authenticate') }}"
+    		 >
+    
+    
+		    <input type="submit" value="Add to cart"/>
+		    
+		    {% if app.request.query.get("added") is defined %}
+		        <br/>
+		    	<p>Item has been added to your basket. <br/>To complete your order, please go to the <a href='/checkout'>checkout.</a></p>
+		    {% endif %}
+		    
+		</form>
+		
+		{{ dump(app.session.all) }}
 </div>
 {% endblock %}

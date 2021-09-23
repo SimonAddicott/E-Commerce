@@ -48,7 +48,12 @@
     		
     		<div style='float: right;width: auto;'>
     		
-	    		<a href='/checkout'>Checkout <i class="fas fa-shopping-basket"></i></a>&nbsp;
+    			{% if app.session.get('basket') is empty %}
+	    			<a href='/checkout'>Checkout <i class="fas fa-shopping-basket"></i></a>&nbsp;
+	    		{% else %}
+	    			
+	    			<a href='/checkout'>Checkout ( {{ app.session.get('basket')['total'] }} ) <i class="fas fa-shopping-basket"></i></a>&nbsp;
+	    		{% endif %}
 	    		<a href='/account'>My Account <i class="fa-solid fa-user"></i></a>&nbsp;
 	    		
 	    		{% if is_granted('ROLE_USER') %}
