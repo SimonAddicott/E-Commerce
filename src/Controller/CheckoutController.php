@@ -39,7 +39,7 @@ class CheckoutController extends AbstractController
                 $productData = $productRepository->find((int)$productId);
                 
                 if(!$productData)
-                    return $this->render('error_page.html.twig', ['error' => 'product id = ' . $productId]);
+                    return $this->render('error_page.html.twig', ['error' => 'product not found - ' . $productId]);
                 
                 $itemIotal = $productData->getPrice() * (int)$quantity;
                 $basketTotal += $itemIotal;
@@ -53,7 +53,6 @@ class CheckoutController extends AbstractController
             }
             $checkout['basket_total'] = $basketTotal;
             
-            // get product data for basket contents
         }
         return $this->render('checkout/index.html.twig', [
             'controller_name' => 'CheckoutController',

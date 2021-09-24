@@ -14,9 +14,13 @@
 	<br/><br/>
 	<h3>Your basket:</h3/>
 	
-	{% if basket is empty %}
+	{% if basket.products is not defined %}
 	<p>No items in your basket!</p>
 	{% else %}
+	
+    {% if app.session.get('basket') %}
+		<p style='color: green;'>Basket has been updated!</p>
+	{% endif %}
 	<table>
 		<thead>
 		  <tr>
@@ -24,18 +28,27 @@
 		    <th></th>
 		    <th class="tg-0lax">Price.</th>
 		    <th class="tg-0lax">Quantity</th>
+		    <th ></th>
 		  </tr>
 		</thead>
 		<tbody>
 		{% for product in basket.products %}
 		  <tr>
-		    <td class="tg-0lax">{{product.product.name}}</td>
+		    <td class="tg-0lax"><a href="/product/{{product.product.id}}">{{product.product.name}}</a></td>
 		    <td></td>
 		    <td class="tg-0lax">£{{product.product.price}}</td>
-		    <td class="tg-0lax">{{product.quantity}}</td>
+		    <td class="tg-0lax">{{product.quantity}} </td>
+		    <td>
+		    	<form method="post" id='removeItem{{ product.product.id }}' action='/basket/remove'>
+			    	<input type="hidden" name="product_id" value="{{ product.product.id }}">
+			        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+		    	</form>
+		    	<button type="submit" title='Remove item' form="removeItem{{ product.product.id }}" value="Submit">x</button>
+		    </td>
 		  </tr>
 		{% endfor %}
 		<tr>
+			<td class="tg-0lax"></td>
 			<td class="tg-0lax"></td>
 			<td class="tg-0lax"></td>
 			<td class="tg-0lax"></td>
