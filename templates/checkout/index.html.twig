@@ -7,59 +7,30 @@
     .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
     .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
     th,td { padding: 15px; }
+    #proceed { 
+    	padding: 10px; 20px 10px 20px;
+    	float: right;	
+    }
 </style>
 
 <div class="example-wrapper">
-    <h1>Check out:</h1>
-	<br/><br/>
-	<h3>Your basket:</h3/>
+    <h1>Check out - Your basket</h1>
+	
 	
 	{% if basket.products is not defined %}
 	<p>No items in your basket!</p>
 	{% else %}
 	
-    {% if app.session.get('basket') %}
+    {% if app.request.query.get("removed") %}
 		<p style='color: green;'>Basket has been updated!</p>
 	{% endif %}
-	<table>
-		<thead>
-		  <tr>
-		    <th class="tg-0pky">Name.</th>
-		    <th></th>
-		    <th class="tg-0lax">Price.</th>
-		    <th class="tg-0lax">Quantity</th>
-		    <th ></th>
-		  </tr>
-		</thead>
-		<tbody>
-		{% for product in basket.products %}
-		  <tr>
-		    <td class="tg-0lax"><a href="/product/{{product.product.id}}">{{product.product.name}}</a></td>
-		    <td></td>
-		    <td class="tg-0lax">£{{product.product.price}}</td>
-		    <td class="tg-0lax">{{product.quantity}} </td>
-		    <td>
-		    	<form method="post" id='removeItem{{ product.product.id }}' action='/basket/remove'>
-			    	<input type="hidden" name="product_id" value="{{ product.product.id }}">
-			        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-		    	</form>
-		    	<button type="submit" title='Remove item' form="removeItem{{ product.product.id }}" value="Submit">x</button>
-		    </td>
-		  </tr>
-		{% endfor %}
-		<tr>
-			<td class="tg-0lax"></td>
-			<td class="tg-0lax"></td>
-			<td class="tg-0lax"></td>
-			<td class="tg-0lax"></td>
-		</tr>
-		<tr>
-		    <td class="tg-0lax"><b>Total</b></td>
-		    <td class="tg-0lax"></td>
-		    <td class="tg-0lax">£{{ basket.basket_total }}</td>
-		  </tr>
-		</tbody>
-	</table>
+	
+    {{ include('checkout/basket_table.html.twig', { 'readonly' : false}) }}
+	
+	<form method="get" id='checkout_details' action='/checkout/details'>
+		<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+	</form>
+	<button type="submit" title='Continue' id='proceed'form="checkout_details" value="Submit">Proceed with order <i class="fas fa-angle-right"></i></button>
 	{% endif %}
 </div>
 {% endblock %}

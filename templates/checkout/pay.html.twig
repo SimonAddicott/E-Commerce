@@ -1,0 +1,78 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello CheckoutController!{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+    td { padding: 0 15px 0 15px;, text-align: left; }
+    .module { float: left; width: 40%;}
+    
+    #paypal-button-container { width: 30%;}
+</style>
+
+<div class="example-wrapper">
+    <h1>Check out - Confirm & make payment:</h1>
+
+	<br/>
+	
+	<div class='module module-address'>
+		<h3>Shipping details</h3>
+		<br/>
+		{{ user.firstName }} {{ user.lastName }}<br/>
+		{{ user.addressLineOne }}<br/>
+		{{ user.addressLineTwo }}<br/>
+		
+		{% if user.addressLineThree %}
+			{{ user.addressLineThree }}<br/>
+		{% endif %}
+		
+		{{ user.addressCity }}<br/>
+		{{ user.addressCounty }}<br/>
+		{{ user.addressPostcode }}<br/>
+		{{ user.addressCountryCode }}<br/>
+	</div>
+	
+	
+	<div class='module module-basket'>
+		<h3>Your order</h3>
+		<br/>
+		{{ include('checkout/basket_table.html.twig', {'readonly' : true}) }}
+		<br/><br/><br/>	
+	</div>
+	
+	<div style='width: 10%;'>
+	
+	<script src="https://www.paypal.com/sdk/js?client-id=AY7oR6XMZ2myyJEdrwwqIHm2e0OYTypWbLUiF2dd2CFe40YZavEh5Gerjmbvo4OWPXanWFaoNZcdCzEz"></script>
+	
+	<script>
+	  paypal.Buttons({
+	    createOrder: function(data, actions) {
+	      // This function sets up the details of the transaction, including the amount and line item details.
+	      return actions.order.create({
+	        purchase_units: [{
+	          amount: {
+	            value: '0.01'
+	          }
+	        }],
+	        items: [],
+	        shipping: {},
+	        description: ""
+	      });
+	    }, 
+	    onApprove: function(data, actions) {
+	      // This function captures the funds from the transaction.
+	      return actions.order.capture().then(function(details) {
+	        // This function shows a transaction success message to your buyer.
+	        alert('Transaction completed by ' + details.payer.name.given_name);
+	      });
+    }
+	  }).render('.module-basket');
+	</script>
+	</div>
+	
+	
+	
+</div>
+{% endblock %}

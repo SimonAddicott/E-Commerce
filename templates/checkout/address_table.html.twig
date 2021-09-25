@@ -1,0 +1,62 @@
+<table>
+		<tbody>
+
+		  <tr>
+		    <td class="">First name</td>
+		    <td class=""><input type='text' name='firstName' value='{{ user.firstName|default('') }}'/></td>
+		  </tr>
+		  
+		  <tr>
+		    <td class="">Last name</td>
+		    <td class=""><input type='text' name='lastName' value='{{ user.lastName|default('') }}'/></td>
+		  </tr>
+		  
+		  <tr>
+		    <td class="">Address line 1</td>
+		    <td class=""><input type='text' name='address1' value='{{ user.addressLineOne|default('') }}'/></td>
+		  </tr>
+		  
+		  <tr>
+		    <td class="">Address line 2</td>
+		    <td class=""><input type='text' name='address2' value='{{ user.addressLineTwo|default('') }}'/></td>
+		  </tr>
+		  
+		  <tr>
+		    <td class="">Address line 3</td>
+		    <td class=""><input type='text' name='address3' value='{{ user.addressLineThree|default('') }}'/></td>
+		  </tr>
+		  
+		  <tr>
+		    <td class="">City</td>
+		    <td class=""><input type='text' name='addressCity' value='{{ user.addressCity|default('') }}'/></td>
+		  </tr>
+		  
+		  <tr>
+		    <td class="">County</td>
+		    <td class=""><input type='text' name='addressCounty' value='{{ user.addressCounty|default('') }}'/></td>
+		  </tr>
+		  
+		  <tr>
+		    <td class="">Postcode</td>
+		    <td class=""><input type='text' name='addressPostcode' value='{{ user.addressPostcode|default('') }}'/></td>
+		  </tr>
+		  
+		  <tr>
+		    <td class="">Country</td>
+		    <td class="">
+		     
+		    <select name='addressCountry'>
+		    {% for country in countries %}
+		        {% if country.code == '{{ user.addressCountry }}' %}
+		    		<option selected value='{{ country.code }}'>{{ country.name}} </option>
+		    	{% else %}
+		    		<option value='{{ country.code }}'>{{ country.name}} </option>
+		    	{% endif %}
+		    {% endfor %}
+		    </select>
+		    </td>
+		  </tr>
+
+		</tbody>
+		
+	</table>
