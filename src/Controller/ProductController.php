@@ -30,7 +30,7 @@ class ProductController extends AbstractController
     /**
      * @Route("/product/{productId}", methods={"GET"})
      */
-    public function getProduct(int $productId): Response
+    public function viewProduct(int $productId): Response
     {
         
         $product = $this->getDoctrine()->getManager()->getRepository(Product::class)->find($productId);
@@ -54,12 +54,36 @@ class ProductController extends AbstractController
         return $output;
     }
     
+    public function getProduct(int $productId) 
+    {
+        $product = $this->getDoctrine()->getManager()->getRepository(Product::class)->find($productId);
+        $product = $this->formatProduct($product);
+        return $product;
+    }
+    
     private function formatProduct($product) {
         $productReturn["id"] = $product->getId();
         $productReturn["name"] = $product->getName();
         $productReturn["price"] = $product->getPrice();
         $productReturn["quantity"] = $product->getQuantity();
         return $productReturn;
+    }
+    
+    public function updateProduct($productId, $params) {
+        $entityManager = $this->getDoctrine()->getManager();
+        $repository = $entityManager->getRepository(Product::class);
+        
+        $product = $repository->find($productId);
+        $product->setName($params['name']);
+        $product->setPrice($params['price']);
+        $product->setQuantity($params['quantity']);
+        
+        $entityManager->persist($product);
+       
+        $entityManager->flush();
+        
+        // how to check for errors ?
+        return true;
     }
     
     

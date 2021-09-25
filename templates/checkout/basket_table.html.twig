@@ -1,0 +1,41 @@
+	<table>
+		<thead>
+		  <tr>
+		    <th class="tg-0pky">Name.</th>
+		    <th></th>
+		    <th class="tg-0lax">Price.</th>
+		    <th class="tg-0lax">Quantity</th>
+		    <th ></th>
+		  </tr>
+		</thead>
+		<tbody>
+		{% for product in basket.products %}
+		  <tr>
+		    <td class="tg-0lax"><a href="/product/{{product.product.id}}">{{product.product.name}}</a></td>
+		    <td></td>
+		    <td class="tg-0lax">£{{product.product.price}}</td>
+		    <td class="tg-0lax">{{product.quantity}} </td>
+		    <td>
+		    {% if readonly == false %}
+		    	<form method="post" id='removeItem{{ product.product.id }}' action='/basket/remove'>
+			    	<input type="hidden" name="product_id" value="{{ product.product.id }}">
+			        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+		    	</form>
+		    	<button type="submit" title='Remove item' form="removeItem{{ product.product.id }}" value="Submit">x</button>
+		    {% endif %}
+		    </td>
+		  </tr>
+		{% endfor %}
+		<tr>
+			<td class="tg-0lax"></td>
+			<td class="tg-0lax"></td>
+			<td class="tg-0lax"></td>
+			<td class="tg-0lax"></td>
+		</tr>
+		<tr>
+		    <td class="tg-0lax"><b>Total</b></td>
+		    <td class="tg-0lax"></td>
+		    <td class="tg-0lax">£{{ basket.basket_total }}</td>
+		  </tr>
+		</tbody>
+	</table>

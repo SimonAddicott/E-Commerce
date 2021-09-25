@@ -33,11 +33,60 @@ class User implements UserInterface
      * @ORM\Column(type="string")
      */
     private $password;
+    
+    /**
+     * @ORM\Column(type="string", length=180)
+     */
+    private $firstName;
+    
+    /**
+     * @ORM\Column(type="string", length=180)
+     */
+    private $lastName;
+    
+    /**
+     * @ORM\Column(type="string", length=180)
+     */
+    private $addressLineOne;
+    
+    /**
+     * @ORM\Column(type="string", length=180)
+     */
+    private $addressLineTwo;
+    
+    /**
+     * @ORM\Column(type="string", length=180, nullable=true)
+     */
+    private $addressLineThree;
+    
+    /**
+     * @ORM\Column(type="string", length=180, nullable=true)
+     */
+    private $addressCity;
+    
+    /**
+     * @ORM\Column(type="string", length=180,nullable=true)
+     */
+    private $addressCounty;
+    
+    /**
+     * @ORM\Column(type="string", length=180, nullable=true)
+     */
+    private $addressPostcode;
+    
+    /**
+     * @ORM\Column(type="string", length=180, nullable=true)
+     */
+    private $addressCountryCode;
+    
+    
 
     public function getId(): ?int
     {
         return $this->id;
     }
+    
+    
 
     public function getEmail(): ?string
     {
@@ -50,7 +99,119 @@ class User implements UserInterface
 
         return $this;
     }
+    
+    
 
+    public function getFirstName(): ?string
+    {
+        return $this->firstName;
+    }
+    
+    public function setFirstName(string $firstName): self
+    {
+        $this->firstName = $firstName;
+        
+        return $this;
+    }
+    
+    
+    
+    public function getLastName(): ?string
+    {
+        return $this->lastName;
+    }
+    
+    public function setLastName(string $lastName): self
+    {
+        $this->lastName = $lastName;
+        
+        return $this;
+    }
+    
+    public function getAddressLineOne(): ?string
+    {
+        return $this->addressLineOne;
+    }
+    
+    public function setAddressLineOne(string $addressOne): self
+    {
+        $this->addressLineOne = $addressOne;
+        
+        return $this;
+    }
+    
+    public function getAddressLineTwo(): ?string
+    {
+        return $this->addressLineTwo;
+    }
+    
+    public function setAddressLineTwo(string $addressTwo): self
+    {
+        $this->addressLineTwo = $addressTwo;
+        
+        return $this;
+    }
+    
+    public function getAddressLineThree(): ?string
+    {
+        return $this->addressLineThree;
+    }
+    
+    public function setAddressLineThree(string $addressThree): self
+    {
+        $this->addressLineThree = $addressThree;
+        
+        return $this;
+    }
+    
+    public function getAddressCity(): ?string
+    {
+        return $this->addressCity;
+    }
+    
+    public function setAddressCity(string $addressCity): self
+    {
+        $this->addressCity= $addressCity;
+        
+        return $this;
+    }
+    
+    public function getAddressCounty(): ?string
+    {
+        return $this->addressCounty;
+    }
+    
+    public function setAddressCounty(string $addressCounty): self
+    {
+        $this->addressCounty = $addressCounty;
+        
+        return $this;
+    }
+    
+    
+    public function getAddressPostcode(): ?string
+    {
+        return $this->addressPostcode;
+    }
+    
+    public function setAddressPostcode(string $addressPostcode): self
+    {
+        $this->addressPostcode = $addressPostcode;
+        
+        return $this;
+    }
+    
+    public function getAddressCountryCode(): ?string
+    {
+        return $this->addressCountryCode;
+    }
+    
+    public function setAddressCountryCode(string $addressCountryCode): self
+    {
+        $this->addressCountryCode = $addressCountryCode;
+        
+        return $this;
+    }
     /**
      * A visual identifier that represents this user.
      *

@@ -43,7 +43,9 @@ class SecurityController extends AbstractController
         // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
         
-        return $this->render('security/register.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
+        $countries = json_decode(file_get_contents(__DIR__ . '/../resources/countries.json'));
+        
+        return $this->render('security/register.html.twig', ['last_username' => $lastUsername, 'error' => $error, 'countries' => $countries]);
     }
     
     /**
@@ -52,15 +54,36 @@ class SecurityController extends AbstractController
     public function createUser(Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
     {
         $email = $request->request->get('email');
-        //$forename = $request->request->get('forename');
-        //$surname = $request->request->get('surname');
         $plainPassword = $request->request->get('password');
+        
+        $firstName = $request->request->get('firstName');
+        $lastName = $request->request->get('lastName');
+        
+        $addressLineOne = $request->request->get('address1');
+        $addressLineTwo = $request->request->get('address2');
+        $addressLineThree = $request->request->get('address3');
+        $addressLineCity = $request->request->get('addressCity');
+        $addressLineCounty = $request->request->get('addressCounty');
+        $addressLinePostcode = $request->request->get('addressPostcode');
+        $addressLineCountryCode = $request->request->get('addressCountry');
+        
         
         $entityManager = $this->getDoctrine()->getManager();
         
         $user = new User();
         $user->setEmail($email);
-        $user->setRoles([]);
+        $user->setRoles(["ROLE_USER"]);
+        
+        $user->setFirstName($firstName);
+        $user->setLastName($lastName);
+        
+        $user->setAddressOne($addressLineOne);
+        $user->setAddressTwo($addressLineTwo);
+        $user->setAddressThree($addressLineThree);
+        $user->setAddressCity($addressLineCity);
+        $user->setAddressCounty($addressLineCounty);
+        $user->setAddressPostcode($addressLinePostcode);
+        $user->setAddressCountryCode($addressLineCountryCode);
         
         $passwordHash = $passwordEncoder->encodePassword($user, $plainPassword);
         

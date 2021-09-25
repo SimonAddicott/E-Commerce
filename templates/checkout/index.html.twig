@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello CheckoutController!{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+    th,td { padding: 15px; }
+    #proceed { 
+    	padding: 10px; 20px 10px 20px;
+    	float: right;	
+    }
+</style>
+
+<div class="example-wrapper">
+    <h1>Check out - Your basket</h1>
+	
+	
+	{% if basket.products is not defined %}
+	<p>No items in your basket!</p>
+	{% else %}
+	
+    {% if app.request.query.get("removed") %}
+		<p style='color: green;'>Basket has been updated!</p>
+	{% endif %}
+	
+    {{ include('checkout/basket_table.html.twig', { 'readonly' : false}) }}
+	
+	<form method="get" id='checkout_details' action='/checkout/details'>
+		<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+	</form>
+	<button type="submit" title='Continue' id='proceed'form="checkout_details" value="Submit">Proceed with order <i class="fas fa-angle-right"></i></button>
+	{% endif %}
+</div>
+{% endblock %}

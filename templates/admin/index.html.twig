@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello AdminController!{% endblock %}
+{% block title %}Control Panel{% endblock %}
 
 {% block body %}
 <style>
@@ -10,11 +10,20 @@
 
 <div class="example-wrapper">
     <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ '/Users/simonaddicott/Desktop/dev/Projects/symfonyProj/src/Controller/AdminController.php'|file_link(0) }}">src/Controller/AdminController.php</a></code></li>
-        <li>Your template at <code><a href="{{ '/Users/simonaddicott/Desktop/dev/Projects/symfonyProj/templates/admin/index.html.twig'|file_link(0) }}">templates/admin/index.html.twig</a></code></li>
-    </ul>
+        
+        
+        <h2>Orders</h2>
+        <ul>
+        	<li>Open orders</li>
+        	<li>Order history</li>
+        	<li></li>
+        </ul>
+        
+        <h2>Product management</h2>
+        <ul>
+	    {% for product in products %}
+	        <li><b><a href='/admin/product/{{ product.id }}'>{{ product.name }} - £{{ product.price }}</a></b></li>
+	    {% endfor %}
+   		 </ul>
 </div>
 {% endblock %}
