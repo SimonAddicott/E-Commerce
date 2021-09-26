@@ -49,16 +49,61 @@
 	<script>
 	  paypal.Buttons({
 	    createOrder: function(data, actions) {
-	      // This function sets up the details of the transaction, including the amount and line item details.
+
 	      return actions.order.create({
 	        purchase_units: [{
-	          amount: {
-	            value: '0.01'
-	          }
+	         "intent":"AUTHORIZE",
+	          "amount": {
+	           "reference_id": '1_1',
+	            "value":'{{ basket.basket_total }}',
+		        "details": {
+		          "subtotal": '{{ basket.basket_total }}',
+		          "shipping": "0.00",
+		          "tax": "0.00"
+		        },
+		        "breakdown": {
+		        	'unit_total': '{{ basket.products|length }}',
+		        	'item_total': { 
+			        		"value": '{{ basket.basket_total }}', 
+			        		"currency_code":"USD"
+			        	},
+		        },
+		        "total": '{{ basket.basket_total }}'
+		      },
+	          "items": [
+		        {% for product in basket.products %}
+			        {
+			        	"sku": '{{ product.product.id }}',
+			        	"name": '{{ product.product.name }}',
+			        	"description": '',
+			        	"unit_amount": { 
+			        		"value": '{{ product.product.price }}', 
+			        		"currency_code":"USD"
+			        	},
+			        	
+			        	"quantity":'{{ product.quantity }}'
+			        },
+		        {% endfor %}
+	        
+	        ],
+	        shipping: {
+	        	"name": { 'full_name': "{{ user.firstName }} {{ user.lastName }}" },
+		        "default_address": false,
+		        "preferred_address": false,
+		        "primary_address": false,
+		        "disable_for_transaction": false,
+		        "line1": "{{ user.addressLineOne }}",
+		        "line2": "{{ user.addressLineTwo }}",
+		        "city": "{{ user.addressCity }}",
+		        "country_code": "{{ user.addressCountryCode }}",
+		        "postal_code": "{{ user.addressPostcode }}",
+		        "state": "{{ user.addressCounty }}",
+		        "phone": ""
+	        },
+	        
+	        description: "Shop Purchase Order"
 	        }],
-	        items: [],
-	        shipping: {},
-	        description: ""
+	        
 	      });
 	    }, 
 	    onApprove: function(data, actions) {
