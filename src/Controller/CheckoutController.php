@@ -122,6 +122,36 @@ class CheckoutController extends AbstractController
             'countries' => $countries,
             'user' => $user
         ]);
+        
+    }
+    
+    /**
+     * @Route("/checkout/confirm", name="checkout_confirm", methods={"POST"})
+     */
+    public function checkoutConfirm(Request $request)
+    {
+        $countries = $this->getCountries();
+        
+        $basket = $this->getBasket();
+        
+        $user = $this->security->getUser();
+        
+        $details["firstName"] = $request->get('firstName');
+        $details["lastName"] = $request->get('lastName');
+        
+        $details["addressOne"] = $request->get('address1');
+        $details["addressTwo"] = $request->get('address2');
+        $details["addressThree"] = $request->get('address3');
+        $details["addressCity"] = $request->get('addressCity');
+        $details["addressCounty"] = $request->get('addressCounty');
+        $details["addressPostcode"] = $request->get('addressPostcode');
+        $details["addressCountry"] = $request->get('addressCountry');
+        
+        
+        return $this->render('checkout/confirm.html.twig', [
+           
+            
+        ]);
     }
     
     private function getCountries()
