@@ -53,23 +53,25 @@
 	      return actions.order.create({
 	        purchase_units: [{
 	         "intent":"AUTHORIZE",
+	         
 	          "amount": {
-	           "reference_id": '1_1',
-	            "value":'{{ basket.basket_total }}',
-		        "details": {
-		          "subtotal": '{{ basket.basket_total }}',
-		          "shipping": "0.00",
-		          "tax": "0.00"
-		        },
-		        "breakdown": {
-		        	'unit_total': '{{ basket.products|length }}',
-		        	'item_total': { 
-			        		"value": '{{ basket.basket_total }}', 
-			        		"currency_code":"USD"
-			        	},
-		        },
-		        "total": '{{ basket.basket_total }}'
+		           "reference_id": '1_1',
+		            "value":'{{ basket.basket_total }}',
+			        "details": {
+			          "subtotal": '{{ basket.basket_total }}',
+			          "shipping": "0.00",
+			          "tax": "0.00"
+			        },
+			        "breakdown": {
+			        	'unit_total': '{{ basket.products|length }}',
+			        	'item_total': { 
+				        		"value": '{{ basket.basket_total }}', 
+				        		"currency_code":"USD"
+				        	},
+			        },
+			        "total": '{{ basket.basket_total }}'
 		      },
+		      
 	          "items": [
 		        {% for product in basket.products %}
 			        {
@@ -85,38 +87,64 @@
 			        },
 		        {% endfor %}
 	        
-	        ],
-	        shipping: {
-	        	"name": { 'full_name': "{{ user.firstName }} {{ user.lastName }}" },
-		        "default_address": false,
-		        "preferred_address": false,
-		        "primary_address": false,
-		        "disable_for_transaction": false,
-		        "line1": "{{ user.addressLineOne }}",
-		        "line2": "{{ user.addressLineTwo }}",
-		        "city": "{{ user.addressCity }}",
-		        "country_code": "{{ user.addressCountryCode }}",
-		        "postal_code": "{{ user.addressPostcode }}",
-		        "state": "{{ user.addressCounty }}",
-		        "phone": ""
-	        },
+	            ],
+	        	shipping: {
+	        	  	address: {
+			        	"name": { 
+			        		'given_name': "{{ user.firstName }}",
+			        		'surname': "{{ user.lastName }}" ,
+			        		'full name': "{{ user.firstName }} {{ user.lastName }}"
+			        	},
+				        "default_address": false,
+				        "preferred_address": true,
+				        "primary_address": false,
+				        "disable_for_transaction": false,
+				        "address_line_1": "{{ user.addressLineOne }}",
+				        "address_line_2": "{{ user.addressLineTwo }}",
+				        "admin_area_2": "{{ user.addressCity }}",
+				        "country_code": "{{ user.addressCountryCode }}",
+				        "postal_code": "{{ user.addressPostcode }}",
+				        "admin_area_1": "{{ user.addressCounty }}",
+				        "phone": ""
+		        	
+		           },
+		        
+		        },
+		        
 	        
-	        description: "Shop Purchase Order"
+	        	description: "Shop Purchase Order"
 	        }],
+	        application_context: {
+	        	shipping_preference: 'SET_PROVIDED_ADDRESS'
+	        },
+	        payer: {
+	        	email_address: "{{ user.email }}",
+	        	name: {
+	        		given_name: "{{ user.firstName }}",
+	        		surname: "{{ user.lastName }}"
+	        	},
+	        	
+	        }
+	        
 	        
 	      });
 	    }, 
 	    onApprove: function(data, actions) {
 	      // This function captures the funds from the transaction.
+	      
 	      return actions.order.capture().then(function(details) {
 	        // This function shows a transaction success message to your buyer.
-	        alert('Transaction completed by ' + details.payer.name.given_name);
+	        console.log(details);
+	        return;
+	        document.getElementById('paymentConfirm').submit();
 	      });
     }
 	  }).render('.module-basket');
 	</script>
 	</div>
-	
+	<form action='/checkout/confirm' id='paymentConfirm' method='POST'>
+		
+	</form>
 	
 	
 </div>

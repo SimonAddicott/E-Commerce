@@ -1,0 +1,19 @@
+{% if status == 'COMPLETED' %}
+
+	<h1>Order complete</h1>
+	<br/>
+	<h3>Order ID: aG39-d84j-dn4j-e03j-</h3>
+	<h3Payment reference: {{ status.id }}</h3>
+	<br/>
+	<p>Your order has been placed & payment succesfully taken. We'll notify you once your order is on its way.</p>
+	<p>Track your order's status <a href='account'>here</a></p>
+
+{% else %}
+
+	<h1>Order unsuccessful/h1>
+	<br/>
+	<h3>Your order has been unsuccessfull</h3>
+	<br/>
+	<p>There was a problem processing your order - no money has been taken from your account</p>
+	
+{% endif %} 
