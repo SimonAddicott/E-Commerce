@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Control Panel{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+    table { width: 100%; }
+    .order-open { background-color: #c9fff3; }
+    .order-open:hover { background-color: #bfc4ff; }
+</style>
+
+<div class="example-wrapper">
+    <h1>Orders</h1>
+		
+		<table>
+		<thead>
+			<tr>
+				<td><b>Order ID</b></td>
+				<td><b>Date</b></td>
+				<td><b>Total</b></td>
+				<td><b>Client</b></td>
+				<td><b>Status</b></td>	
+			</tr>
+		</thead>
+		<tbody>
+	    {% for order in orders %}
+	    	<tr class='order-open'>
+				<td>{{ order.id }}</td>
+				<td>{{ order.datetime }}</td>
+				<td>{{ order.paymentDetails }}</td>
+				<td>{{ order.userId }}</td>
+				<td>Open</td>	
+			</tr>
+	        <!-- <li><b><a href='/admin/product/{{ order.id }}'>{{ order.id }} - {{ order.datetime }}</a></b></li> -->
+	    {% endfor %}
+	    </tbody>
+   		 </table>
+</div>
+{% endblock %}

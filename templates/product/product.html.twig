@@ -22,8 +22,11 @@
 	    	    <li><< description>></li>
 		    </ul>
 		    
-		    <b>{{ product.quantity }} available</b>
-		    
+		    {% if product.quantity > 0 %}
+		    	<b>{{ product.quantity }} available</b>
+		    {% else %}
+		    	<b>Out of stock!</b>
+		    {% endif %}
 		    
 		    <br/><br/>
 		    <input type="hidden" name="product_id" value="{{ product.id }}">
@@ -31,8 +34,9 @@
            		value="{{ csrf_token('authenticate') }}"
     		 >
     
-    
-		    <input type="submit" value="Add to cart"/>
+    		{% if product.quantity > 0 %}
+		    	<input type="submit" value="Add to cart"/>
+		    {% endif %}
 		    
 		    {% if app.request.query.get("added") is not null  %}
 		        <br/><br/>

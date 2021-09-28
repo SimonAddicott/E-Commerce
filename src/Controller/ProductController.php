@@ -111,4 +111,23 @@ class ProductController extends AbstractController
         
         return new Response('Saved new product with id '.$product->getId());
     }
+    
+    public function delistProduct($productId, $quantity)
+    {
+        $product = $this->getProduct($productId);
+        if ($product['quantity'] >= $quantity)
+        {
+            $updatedStockQuantity = $product['quantity'] - $quantity;
+            $product['quantity'] = $updatedStockQuantity;
+            $this->updateProduct($productId, $product);
+            
+        } else {
+            throw new \Exception('Attempting to delist more stock than we have. ' 
+                . print_r([
+                    'quantity_held' => $product['quantity'],
+                    'quantity_delisting' => $quantity
+                ]));    
+        }
+        
+    }
 }
