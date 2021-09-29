@@ -66,6 +66,7 @@ class ProductController extends AbstractController
         $productReturn["name"] = $product->getName();
         $productReturn["price"] = $product->getPrice();
         $productReturn["quantity"] = $product->getQuantity();
+        $productReturn["image"] = $product->getImage();
         return $productReturn;
     }
     
