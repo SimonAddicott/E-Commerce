@@ -32,6 +32,7 @@ class ProductManagementController extends AbstractController
         
         $productUpdate = $product;
         $productUpdate['name'] = $request->get('name');
+        $productUpdate['description'] = $request->get('description');
         $productUpdate['price'] = $request->get('price');
         $productUpdate['quantity'] = $request->get('quantity');
         

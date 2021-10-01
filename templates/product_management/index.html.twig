@@ -16,13 +16,16 @@
 
     <form method="post" action="/admin/product/{{product.id}}" enctype="multipart/form-data">
 	    Name<br/>
-	    <input type="text" name= "name" value="{{product.name}}" /><br/>
+	    <input type="text" name="name" value="{{product.name}}" /><br/>
+	    
+	    Description<br/>
+	    <input type="text" name="description" style='width: 500px;' value="{{product.description}}" /><br/>
 	    
 	    Price<br/>
-	    <input type="text" name= "price" value="{{product.price}}" /><br/>
+	    <input type="text" name="price" value="{{product.price}}" /><br/>
 	    
 	    Quantity <br/>  
-	    <input type="text" name= "quantity" value="{{product.quantity}}" /><br/><br/>
+	    <input type="text" name="quantity" value="{{product.quantity}}" /><br/><br/>
 	    
 	    Image <br/>
 	    {% if product.image %}

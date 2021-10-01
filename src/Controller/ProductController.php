@@ -67,6 +67,7 @@ class ProductController extends AbstractController
         $productReturn["price"] = $product->getPrice();
         $productReturn["quantity"] = $product->getQuantity();
         $productReturn["image"] = $product->getImage();
+        $productReturn["description"] = $product->getDescription();
         return $productReturn;
     }
     
@@ -78,6 +79,9 @@ class ProductController extends AbstractController
         
         if ($params['name'] != $product->getName() && !empty($params['name'])) {
             $product->setName($params['name']);
+        }
+        if ($params['description'] != $product->getDescription() && !empty($params['description'])) {
+            $product->setDescription($params['description']);
         }
         if ($params['price'] != $product->getPrice() && !empty($params['price'])) {
             $product->setPrice($params['price']);
