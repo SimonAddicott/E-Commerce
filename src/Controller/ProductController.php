@@ -66,6 +66,7 @@ class ProductController extends AbstractController
         $productReturn["name"] = $product->getName();
         $productReturn["price"] = $product->getPrice();
         $productReturn["quantity"] = $product->getQuantity();
+        $productReturn["image"] = $product->getImage();
         return $productReturn;
     }
     
@@ -110,5 +111,24 @@ class ProductController extends AbstractController
         $entityManager->flush();
         
         return new Response('Saved new product with id '.$product->getId());
+    }
+    
+    public function delistProduct($productId, $quantity)
+    {
+        $product = $this->getProduct($productId);
+        if ($product['quantity'] >= $quantity)
+        {
+            $updatedStockQuantity = $product['quantity'] - $quantity;
+            $product['quantity'] = $updatedStockQuantity;
+            $this->updateProduct($productId, $product);
+            
+        } else {
+            throw new \Exception('Attempting to delist more stock than we have. ' 
+                . print_r([
+                    'quantity_held' => $product['quantity'],
+                    'quantity_delisting' => $quantity
+                ]));    
+        }
+        
     }
 }

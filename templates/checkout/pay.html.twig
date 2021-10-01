@@ -130,12 +130,11 @@
 	      });
 	    }, 
 	    onApprove: function(data, actions) {
-	      // This function captures the funds from the transaction.
 	      
 	      return actions.order.capture().then(function(details) {
-	        // This function shows a transaction success message to your buyer.
-	        console.log(details);
-	        return;
+	     
+			document.getElementById('data_id').value = details.id;
+			document.getElementById('data_status').value = details.status;
 	        document.getElementById('paymentConfirm').submit();
 	      });
     }
@@ -143,7 +142,8 @@
 	</script>
 	</div>
 	<form action='/checkout/confirm' id='paymentConfirm' method='POST'>
-		
+		<input type='hidden' value='' name='data_id' id='data_id' />
+		<input type='hidden' value='' name='data_status' id='data_status' />
 	</form>
 	
 	

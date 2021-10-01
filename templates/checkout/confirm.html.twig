@@ -1,19 +1,36 @@
-{% if status == 'COMPLETED' %}
+{% extends 'base.html.twig' %}
 
-	<h1>Order complete</h1>
-	<br/>
-	<h3>Order ID: aG39-d84j-dn4j-e03j-</h3>
-	<h3Payment reference: {{ status.id }}</h3>
-	<br/>
-	<p>Your order has been placed & payment succesfully taken. We'll notify you once your order is on its way.</p>
-	<p>Track your order's status <a href='account'>here</a></p>
+{% block title %}Hello CheckoutController!{% endblock %}
 
-{% else %}
+{% block body %}
 
-	<h1>Order unsuccessful/h1>
-	<br/>
-	<h3>Your order has been unsuccessfull</h3>
-	<br/>
-	<p>There was a problem processing your order - no money has been taken from your account</p>
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+    td { padding: 0 15px 0 15px;, text-align: left; }
+    .module { float: left; width: 40%;}
+</style>
+
+<div class='example-wrapper'>
+	{% if data.status == 'COMPLETED' %}
 	
-{% endif %} 
+		<h1>Order complete</h1>
+		<br/>
+		<h3>Order ID: aG39-d84j-dn4j-e03j-</h3>
+		<h3>Payment reference: {{ data.id }}</h3>
+		<br/>
+		<p>Your order has been placed & payment succesfully taken. We'll notify you once your order is on its way.</p>
+		<p>Track your order's status <a href='account'>here</a></p>
+	
+	{% else %}
+	
+		<h1>Order unsuccessful - {{ data.status }}</h1>
+		<br/>
+		<h3>Your order has been unsuccessfull</h3>
+		<br/>
+		<p>There was a problem processing your order - no money has been taken from your account</p>
+		
+	{% endif %} 
+</div>
+
+{% endblock %}

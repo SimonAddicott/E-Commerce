@@ -26,6 +26,11 @@ class Product
      * @ORM\Column(type="float", nullable=true)
      */
     private $price;
+    
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $image;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
@@ -70,6 +75,18 @@ class Product
     {
         $this->quantity = $quantity;
 
+        return $this;
+    }
+    
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+    
+    public function setImage(?string $image): self
+    {
+        $this->image = $image;
+        
         return $this;
     }
 }

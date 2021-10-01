@@ -15,9 +15,23 @@ class AdminController extends AbstractController
     {
         $products = $productController->getProducts();
         
+        
         return $this->render('admin/index.html.twig', [
             'controller_name' => 'AdminController',
             'products' => $products
+        ]);
+    }
+    
+    /**
+     * @Route("/admin/orders", name="admin_orders")
+     */
+    public function showOrders(OrderController $orderController): Response
+    {
+        $orders = $orderController->getOrders();
+        
+        
+        return $this->render('admin/orders.html.twig', [
+            'orders' => $orders
         ]);
     }
 }

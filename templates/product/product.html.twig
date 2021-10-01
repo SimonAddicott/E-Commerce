@@ -7,6 +7,9 @@
     .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
     .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
     .subtext { font-size: 9pt; }
+    .product-image { width: 40%; float: left; }
+    ul { float: left; width: 50%; }
+    .product-module{ float: left; width: 100%; text-align: right; padding-bottom: 50px;}
 </style>
 
 <div class="example-wrapper">
@@ -14,30 +17,40 @@
     
     <h3>&pound;{{ product.price }}</h3>
     	<form method='post' action='/basket'>
+    	
+    		<img class='product-image' src='data:image/png;base64, {{ product.image }}'/>
 	    	 
 	    	 <ul>
-	    	    <li><< description>></li>
-	    	    <li><< description>></li>
-	    	    <li><< description>></li>
-	    	    <li><< description>></li>
+	    	    <li>Phasellus mattis felis nec purus tempor, sed lobortis erat sagittis. Vestibulum bibendum leo in arcu venenatis sollicitudin. Aliquam lacus odio, semper quis orci non, suscipit pharetra ex. Quisque sed varius neque, ac luctus mauris. Nullam in congue felis. Fusce imperdiet nunc condimentum maximus pellentesque. Sed a urna dui.</li>
+	    	    <li>Integer consectetur lobortis condimentum. Aliquam pharetra, neque nec iaculis aliquam, ipsum sapien malesuada arcu, quis vestibulum eros diam id turpis.</li>
+	    	    <li>Aliquam pharetra, neque nec iaculis aliquam.</li>
+
 		    </ul>
 		    
-		    <b>{{ product.quantity }} available</b>
+		    <br/>
 		    
-		    
-		    <br/><br/>
-		    <input type="hidden" name="product_id" value="{{ product.id }}">
-		     <input type="hidden" name="_csrf_token"
-           		value="{{ csrf_token('authenticate') }}"
-    		 >
-    
-    
-		    <input type="submit" value="Add to cart"/>
-		    
-		    {% if app.request.query.get("added") is not null  %}
-		        <br/><br/>
-		    	<p class='subtext'>Item has been added to your basket. <br/>To complete your order, please go to the <a href='/checkout'>checkout.</a></p>
-		    {% endif %}
+		    <div class='product-module'>
+			    {% if product.quantity > 0 %}
+			    	<b>{{ product.quantity }} available</b>
+			    {% else %}
+			    	<b>Out of stock!</b>
+			    {% endif %}
+			    
+			    <br/><br/>
+			    <input type="hidden" name="product_id" value="{{ product.id }}">
+			     <input type="hidden" name="_csrf_token"
+	           		value="{{ csrf_token('authenticate') }}"
+	    		 >
+	    
+	    		{% if product.quantity > 0 %}
+			    	<input type="submit" value="Add to cart"/>
+			    {% endif %}
+			    
+			    {% if app.request.query.get("added") is not null  %}
+			        <br/><br/>
+			    	<p class='subtext'>Item has been added to your basket. <br/>To complete your order, please go to the <a href='/checkout'>checkout.</a></p>
+			    {% endif %}
+		    </div>
 		    
 		</form>
 		

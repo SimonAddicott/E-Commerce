@@ -13,6 +13,7 @@ use Symfony\Component\Asset\VersionStrategy\EmptyVersionStrategy;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\HttpFoundation\Request;
+use App\Repository\OrderRepository;
 
 class CheckoutController extends AbstractController
 {
@@ -128,28 +129,42 @@ class CheckoutController extends AbstractController
     /**
      * @Route("/checkout/confirm", name="checkout_confirm", methods={"POST"})
      */
-    public function checkoutConfirm(Request $request)
+    public function checkoutConfirm(Request $request, ProductController $productController, OrderController $orderController)
     {
-        $countries = $this->getCountries();
-        
-        $basket = $this->getBasket();
+        $paymentData["status"] = $request->get('data_status');
+        $paymentData["id"] = $request->get('data_id');
         
         $user = $this->security->getUser();
         
-        $details["firstName"] = $request->get('firstName');
-        $details["lastName"] = $request->get('lastName');
+        $basket = json_encode($this->getBasket());
         
-        $details["addressOne"] = $request->get('address1');
-        $details["addressTwo"] = $request->get('address2');
-        $details["addressThree"] = $request->get('address3');
-        $details["addressCity"] = $request->get('addressCity');
-        $details["addressCounty"] = $request->get('addressCounty');
-        $details["addressPostcode"] = $request->get('addressPostcode');
-        $details["addressCountry"] = $request->get('addressCountry');
+        $address = json_encode([]);
         
+        if ($paymentData["status"] == "COMPLETED")
+        {
+            $orderController->createOrder($paymentData["id"], $basket, $address, $user->getId());
+            
+            // Deduct purchased items from stock
+            $basket = $this->getBasket();
+            if(isset($basket['products'])) {
+                foreach( $basket['products'] as $product )
+                {
+                    $productId = $product['product']->getId();
+                    $quantity = $product['quantity'];
+                    
+                    
+                    $productController->delistProduct($productId, $quantity);
+                }
+            }
+            
+            
+            // Destory basket session
+            $session = $this->requestStack->getCurrentRequest()->getSession();
+            $basket = $session->set('basket', []);
+        }
         
         return $this->render('checkout/confirm.html.twig', [
-           
+            'data' => $paymentData
             
         ]);
     }
