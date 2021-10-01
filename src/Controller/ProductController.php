@@ -75,9 +75,19 @@ class ProductController extends AbstractController
         $repository = $entityManager->getRepository(Product::class);
         
         $product = $repository->find($productId);
-        $product->setName($params['name']);
-        $product->setPrice($params['price']);
-        $product->setQuantity($params['quantity']);
+        
+        if ($params['name'] != $product->getName() && !empty($params['name'])) {
+            $product->setName($params['name']);
+        }
+        if ($params['price'] != $product->getPrice() && !empty($params['price'])) {
+            $product->setPrice($params['price']);
+        }
+        if ($params['quantity'] != $product->getQuantity() && !empty($params['quantity'])) {
+            $product->setQuantity($params['quantity']);
+        }
+        if ($params['image'] != $product->getImage() && !empty($params['image']) ) {
+            $product->setImage($params['image']);
+        }
         
         $entityManager->persist($product);
        

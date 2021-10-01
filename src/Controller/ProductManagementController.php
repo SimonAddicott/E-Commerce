@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use PHPUnit\Util\FileLoader;
 
 class ProductManagementController extends AbstractController
 {
@@ -18,7 +19,7 @@ class ProductManagementController extends AbstractController
         return $this->render('product_management/index.html.twig', [
             'controller_name' => 'ProductManagementController',
             'product' => $product,
-            'error' => ''
+            'error' => 'SHOW'
         ]);
     }
     
@@ -29,18 +30,34 @@ class ProductManagementController extends AbstractController
     {
         $product = $productController->getProduct($productId);
         
-        $product['name'] = $request->get('name');
-        $product['price'] = $request->get('price');
-        $product['quantity'] = $request->get('quantity');
+        $productUpdate = $product;
+        $productUpdate['name'] = $request->get('name');
+        $productUpdate['price'] = $request->get('price');
+        $productUpdate['quantity'] = $request->get('quantity');
         
-        $error = '';
-        if (!$productController->updateProduct($productId, $product)) {
+        if ($request->files->get('image') != ''){
+            $file = $request->files->get('image');
+            
+            $uploadDir = '/tmp';
+            
+            $filename = hash('md5', $file->getClientOriginalName());
+            
+            $file->move($uploadDir, $filename);
+            $encodedImage = base64_encode(file_get_contents($uploadDir . '/' . $filename));
+            
+            $productUpdate['image'] = $encodedImage;
+        }
+        
+        $error = 'OK';
+        if (!$productController->updateProduct($productId, $productUpdate)) {
             $error = '<h1>Unable to update product</h1>';
         }
+        
+        $product = $productController->getProduct($productId);
         return $this->render('product_management/index.html.twig', [
             'controller_name' => 'ProductManagementController',
             'product' => $product,
-            'error' => $error,
+            'error' => $error
         ]);
         
     }
