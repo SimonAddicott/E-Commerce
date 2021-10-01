@@ -41,9 +41,11 @@ class ProductManagementController extends AbstractController
             $uploadDir = '/tmp';
             
             $filename = hash('md5', $file->getClientOriginalName());
+            $filePath = $uploadDir . '/' . $filename;
             
             $file->move($uploadDir, $filename);
-            $encodedImage = base64_encode(file_get_contents($uploadDir . '/' . $filename));
+            $encodedImage = base64_encode(file_get_contents($filePath));
+            unlink($filePath);
             
             $productUpdate['image'] = $encodedImage;
         }
