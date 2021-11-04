@@ -31,8 +31,19 @@
     }
 </style>
 
+<script>
+	$("#search-input").onInput(function(){
+		search = this.value;
+		// todo
+	});
+</script>
+
 <div class="example-wrapper">
     <h1>Products</h1>
+    
+    <div class=''>
+    	<input type='text' placeholder='Search' id='search-input' name='search-input' />
+    </div>
     
     {% if products|length > 0 %}
     	 <div class=''>
