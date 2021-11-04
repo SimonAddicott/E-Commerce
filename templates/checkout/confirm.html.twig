@@ -21,6 +21,15 @@
 		<br/>
 		<p>Your order has been placed & payment succesfully taken. We'll notify you once your order is on its way.</p>
 		<p>Track your order's status <a href='account'>here</a></p>
+		<br/><br/>
+		
+		{% if details.notRegistered %}
+		<form
+		<p>To create an account with us:</p>
+		<input type='email' value='{{ details.email }}'/>
+		<br/>
+		<input type='password' name='password' placeholder='Password'/>
+		{% endif %}
 	
 	{% else %}
 	

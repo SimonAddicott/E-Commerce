@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Control Panel{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+    table { width: 100%; }
+    .order-open { background-color: #c9fff3; }
+    .order-open:hover { background-color: #bfc4ff; }
+    .order_admin_button
+    {
+    }
+    .reject
+    {
+    background-color: red;
+    }
+</style>
+
+<div class="example-wrapper">
+    <h1>Order {{ order.id }}</h1>
+		
+	<span><b>Order ID:</b> {{ order.id }}</span><br/>
+	<span><b>Date:</b> {{ order.datetime }}</span><br/>
+	<span><b>Total:</b></span><br/>
+	<span><b>Client:</b> {{ client.firstName }} {{ client.lastName }}</span><br/>
+	<span><b>Status:</b> Open</span>	<br/><br/>
+	
+	<input type='submit' class='order_admin_button' value='Generate invoice' name=''/>&nbsp;
+	<input type='submit' class='order_admin_button' value='Print label' name=''/>&nbsp;
+	<input type='submit' class='order_admin_button' value='Mark as shipped' name=''/>&nbsp;&nbsp;
+	<input type='submit' class='order_admin_button reject' value='Reject order' name=''/>&nbsp;
+	
+</div>
+{% endblock %}

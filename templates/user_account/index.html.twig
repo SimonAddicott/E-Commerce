@@ -6,10 +6,82 @@
 <style>
     .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
     .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+    
+    .outside 
+    {
+    	width: 100%;
+    	height: 100%;
+    	border: 2px solid black;
+    	display: inline-block;
+    }
+    
+    .menu 
+    {
+    	width: 20%;
+    	height: 100%;
+    	border: 2px solid black;
+    	display: inline-block;
+    }
+    
+    .option
+    {
+    	float: left;
+    	width: 100%;
+    	height: 50px;
+    	border: 2px solid black;
+    }
+    
+    .option-top
+    {
+    
+    }
+    
+    .option-bottom
+    {
+    
+    }
+    
+    .content
+    {
+    	float: right;
+    	border: 2px solid black;
+    	width: 78%;
+    	height: 100%;
+    	display: inline-block;
+    }
 </style>
 
 <div class="example-wrapper">
     <h1>Hello {{ user.firstName }}.</h1>
-	{{ dump(user) }}
+	<div class="outside">
+		
+		<div class="content">
+			Content here.
+		</div>
+	
+	<div class="menu">
+		
+			<div class="option option-top">
+				<!-- Summary page -->
+				Summary page
+			</div>
+			
+			<div class="option">
+				<!-- address page -->
+				Address page
+			</div>
+			
+			<div class="option">
+				<!-- orders page -->
+				Orders page
+			</div>
+			
+			<div class="option option-bottom">
+				<!-- security/password page -->
+				Security page
+			</div>
+		
+		</div>	
+	</div>
 </div>
 {% endblock %}

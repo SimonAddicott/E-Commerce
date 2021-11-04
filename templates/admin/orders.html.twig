@@ -30,8 +30,12 @@
 				<td>{{ order.id }}</td>
 				<td>{{ order.datetime }}</td>
 				<td>{{ order.paymentDetails }}</td>
-				<td>{{ order.userId }}</td>
-				<td>Open</td>	
+				{% if order.userId != 0 %}
+					<td>{{ order.userId }}</td>
+				{% else %}
+					<td>Guest</td>
+				{% endif %}
+				<td><a href='/admin/orders/{{ order.id }}'>Open</a></td>	
 			</tr>
 	        <!-- <li><b><a href='/admin/product/{{ order.id }}'>{{ order.id }} - {{ order.datetime }}</a></b></li> -->
 	    {% endfor %}

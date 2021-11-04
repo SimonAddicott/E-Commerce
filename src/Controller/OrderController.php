@@ -13,6 +13,13 @@ use PHPMailer\PHPMailer\SMTP;
 class OrderController extends AbstractController
 {
     
+    private $configController;
+    
+    public function __construct(ConfigurationController $configController)
+    {
+        $this->configController = $configController;
+    }
+    
     public function getOrders()
     {
         $manager = $this->getDoctrine()->getManager();
@@ -48,7 +55,26 @@ class OrderController extends AbstractController
         
         $manager->flush();
         
+        $this->notifyClientOfNewOrder();
+        $this->notifyAdminOfNewOrder();
+        
         return $order->getId();
+    }
+    
+    private function notifyClientOfNewOrder()
+    {
+        //$this->sendEmail($to, $clientName, $subject, $bodyHTML, $bodyPlain);
+    }
+    
+    private function notifyAdminOfNewOrder()
+    {
+        //$adminEmail = $this->configController->requestConfigByName('ADMIN_EMAIL');
+        $name = "Admin";
+        $subject = "New order notification";
+        $bodyHTML = ""; // Todo
+        $bodyPlain = "";
+        
+        //$this->sendEmail($adminEmail, $name, $subject, $bodyHTML, $bodyPlain);   
     }
     
     /**
@@ -63,24 +89,25 @@ class OrderController extends AbstractController
      */
     private function sendEmail(string $to, string $clientName, string $subject, string $bodyHTML, string $bodyPlain)
     {
+        
         $mail = new PHPMailer(true);
         
         try {
             //Server settings
             $mail->SMTPDebug = SMTP::DEBUG_SERVER; //Enable verbose debug output
             $mail->isSMTP(); //Send using SMTP
-            $mail->Host       = 'smtp.example.com'; //Set the SMTP server to send through
+            $mail->Host       = $this->configController->requestConfigByName('SMTP_HOST'); //Set the SMTP server to send through
             $mail->SMTPAuth   = true; //Enable SMTP authentication
-            $mail->Username   = 'user@example.com'; //SMTP username
-            $mail->Password   = 'secret'; //SMTP password
+            $mail->Username   = $this->configController->requestConfigByName('SMTP_USER'); //SMTP username
+            $mail->Password   = $this->configController->requestConfigByName('SMTP_PASS'); //SMTP password
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS; //Enable implicit TLS encryption
             $mail->Port       = 465; //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
             
             //Recipients
-            $mail->setFrom('from@example.com', 'Mailer');
+            $mail->setFrom($this->configController->requestConfigByName('EMAIL_SENDER'), 'Mailer');
             $mail->addAddress($to, $clientName); //Add a recipient
             //$mail->addAddress('ellen@example.com');  //Name is optional
-            $mail->addReplyTo('info@example.com', 'Information');
+            $mail->addReplyTo($this->configController->requestConfigByName('EMAIL_REPLY_TO'), 'Information');
             //$mail->addCC('cc@example.com');
             //$mail->addBCC('bcc@example.com');
             

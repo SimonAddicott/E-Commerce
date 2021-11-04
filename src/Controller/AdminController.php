@@ -5,6 +5,7 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Entity\User;
 
 class AdminController extends AbstractController
 {
@@ -33,5 +34,27 @@ class AdminController extends AbstractController
         return $this->render('admin/orders.html.twig', [
             'orders' => $orders
         ]);
+    }
+    
+    /**
+     * @Route("/admin/orders/{orderId}", name="admin_order")
+     */
+    public function showOrder(OrderController $orderController, int $orderId): Response
+    {
+        $order = $orderController->getOrder($orderId);
+        $user = $this->getUserDetails($order->getUserId());
+        
+        
+        return $this->render('admin/order.html.twig', [
+            'order' => $order,
+            'client' => $user
+        ]);
+    }
+    
+    private function getUserDetails(int $userId)
+    {
+        $repository = $this->getDoctrine()->getManager()->getRepository(User::class);
+        $user = $repository->find($userId);
+        return $user;
     }
 }

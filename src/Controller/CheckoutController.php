@@ -106,16 +106,29 @@ class CheckoutController extends AbstractController
         
         $user = $this->security->getUser();
         
+        $session = $this->requestStack->getCurrentRequest()->getSession();
+        
         $details["firstName"] = $request->get('firstName');
         $details["lastName"] = $request->get('lastName');
         
-        $details["addressOne"] = $request->get('address1');
-        $details["addressTwo"] = $request->get('address2');
-        $details["addressThree"] = $request->get('address3');
+        $details["email"] = $request->get('emailAddress');
+        
+        $details["addressLineOne"] = $request->get('address1');
+        $details["addressLineTwo"] = $request->get('address2');
+        $details["addressLineThree"] = $request->get('address3');
         $details["addressCity"] = $request->get('addressCity');
         $details["addressCounty"] = $request->get('addressCounty');
         $details["addressPostcode"] = $request->get('addressPostcode');
-        $details["addressCountry"] = $request->get('addressCountry');
+        $details["addressCountryCode"] = $request->get('addressCountry');
+        
+        // non-registered client
+        if(!$user) {
+            $details["notRegistered"] = true;
+            $user = $details;
+        }
+        
+        $session->set("checkout_details", $details);
+        
         return $this->render('checkout/pay.html.twig', [
             'controller_name' => 'CheckoutController',
             'basket' => $basket,
@@ -123,7 +136,6 @@ class CheckoutController extends AbstractController
             'countries' => $countries,
             'user' => $user
         ]);
-        
     }
     
     /**
@@ -134,15 +146,29 @@ class CheckoutController extends AbstractController
         $paymentData["status"] = $request->get('data_status');
         $paymentData["id"] = $request->get('data_id');
         
+        $session = $this->requestStack->getCurrentRequest()->getSession();
+        if($session->has("checkout_details")) {
+            $details = $session->get("checkout_details");
+        }
+        
         $user = $this->security->getUser();
         
         $basket = json_encode($this->getBasket());
         
-        $address = json_encode([]);
+        $address = json_encode($details);
         
         if ($paymentData["status"] == "COMPLETED")
         {
-            $orderController->createOrder($paymentData["id"], $basket, $address, $user->getId());
+            
+            // non-registered client
+            $userId = 0;
+            
+            if($user) {
+                $userId = $user->getId();
+            }
+                
+            $orderController->createOrder($paymentData["id"], $basket, $address, $userId);
+            
             
             // Deduct purchased items from stock
             $basket = $this->getBasket();
@@ -164,7 +190,8 @@ class CheckoutController extends AbstractController
         }
         
         return $this->render('checkout/confirm.html.twig', [
-            'data' => $paymentData
+            'data' => $paymentData,
+            'details' => $details
             
         ]);
     }

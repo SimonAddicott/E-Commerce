@@ -5,11 +5,17 @@ namespace App\Entity;
 use App\Repository\ConfigurationRepository;
 use Doctrine\ORM\Mapping as ORM;
 
+const SITE_NAME = 'SITE_NAME';
+const SMTP_HOST = 'SMTP_HOST';
+const SMTP_USERNAME = 'SMTP_USER';
+const SMTP_PASSWORD = 'SMTP_PASS';
+
 /**
  * @ORM\Entity(repositoryClass=ConfigurationRepository::class)
  */
 class Configuration
 {
+    
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
