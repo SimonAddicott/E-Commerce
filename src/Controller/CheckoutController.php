@@ -27,6 +27,7 @@ class CheckoutController extends AbstractController
     {
         $this->requestStack = $requestStack;
         $this->security = $security;
+        
     }
     
     /**

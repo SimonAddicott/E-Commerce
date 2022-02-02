@@ -3,54 +3,54 @@
 
 		  <tr>
 		    <td class="">First name</td>
-		    <td class=""><input type='text' name='firstName' value='{{ user.firstName|default('') }}'/></td>
+		    <td class=""><input type='text' class="form-control" name='firstName' value='{{ user.firstName|default('') }}'/></td>
 		  </tr>
 		  
 		  <tr>
 		    <td class="">Last name</td>
-		    <td class=""><input type='text' name='lastName' value='{{ user.lastName|default('') }}'/></td>
+		    <td class=""><input type='text' class="form-control" name='lastName' value='{{ user.lastName|default('') }}'/></td>
 		  </tr>
 		  
 		  <tr>
-		    <td class="">Email address/td>
-		    <td class=""><input type='text' name='emailAddress' value='{{ user.emailAddress|default('') }}'/></td>
+		    <td class="">Email address</td>
+		    <td class=""><input type='text'  class="form-control"name='emailAddress' value='{{ user.emailAddress|default('') }}'/></td>
 		  </tr>
 		  
 		  <tr>
 		    <td class="">Address line 1</td>
-		    <td class=""><input type='text' name='address1' value='{{ user.addressLineOne|default('') }}'/></td>
+		    <td class=""><input type='text' class="form-control" name='address1' value='{{ user.addressLineOne|default('') }}'/></td>
 		  </tr>
 		  
 		  <tr>
 		    <td class="">Address line 2</td>
-		    <td class=""><input type='text' name='address2' value='{{ user.addressLineTwo|default('') }}'/></td>
+		    <td class=""><input type='text'  class="form-control"name='address2' value='{{ user.addressLineTwo|default('') }}'/></td>
 		  </tr>
 		  
 		  <tr>
 		    <td class="">Address line 3</td>
-		    <td class=""><input type='text' name='address3' value='{{ user.addressLineThree|default('') }}'/></td>
+		    <td class=""><input type='text'class="form-control"  name='address3' value='{{ user.addressLineThree|default('') }}'/></td>
 		  </tr>
 		  
 		  <tr>
 		    <td class="">City</td>
-		    <td class=""><input type='text' name='addressCity' value='{{ user.addressCity|default('') }}'/></td>
+		    <td class=""><input type='text'class="form-control"  name='addressCity' value='{{ user.addressCity|default('') }}'/></td>
 		  </tr>
 		  
 		  <tr>
 		    <td class="">County</td>
-		    <td class=""><input type='text' name='addressCounty' value='{{ user.addressCounty|default('') }}'/></td>
+		    <td class=""><input type='text'class="form-control"  name='addressCounty' value='{{ user.addressCounty|default('') }}'/></td>
 		  </tr>
 		  
 		  <tr>
 		    <td class="">Postcode</td>
-		    <td class=""><input type='text' name='addressPostcode' value='{{ user.addressPostcode|default('') }}'/></td>
+		    <td class=""><input type='text'class="form-control" name='addressPostcode' value='{{ user.addressPostcode|default('') }}'/></td>
 		  </tr>
 		  
 		  <tr>
 		    <td class="">Country</td>
 		    <td class="">
 		     
-		    <select name='addressCountry'>
+		    <select name='addressCountry' class="form-control">
 		    {% for country in countries %}
 		        {% if country.code == '{{ user.addressCountry }}' %}
 		    		<option selected value='{{ country.code }}'>{{ country.name}} </option>

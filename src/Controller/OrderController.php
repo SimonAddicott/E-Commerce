@@ -30,6 +30,16 @@ class OrderController extends AbstractController
         return $orders;
     }
     
+    public function getOrdersByUserId($userId)
+    {
+        $manager = $this->getDoctrine()->getManager();
+        $repository = $manager->getRepository(Order::class);
+        
+        $orders = $repository->findBy(['userId' => $userId]);
+        
+        return $orders;
+    }
+    
     public function getOrder($orderId)
     {
         $manager = $this->getDoctrine()->getManager();

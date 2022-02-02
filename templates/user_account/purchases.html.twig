@@ -1,0 +1,17 @@
+{% extends 'user_account/index.html.twig' %}
+
+{% block content %}
+<script>
+ $(document).ready(function () {
+    	$('.active').removeClass('active');
+        $('.purchases-li').addClass('active');
+    });
+</script>
+PURCHASES
+
+<ul>
+    {% for order in orders %}
+        <li>{{ order.datetime|e }} - {{ order.status|e }}</li>
+    {% endfor %}
+</ul>
+{% endblock %}
