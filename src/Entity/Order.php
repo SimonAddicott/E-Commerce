@@ -47,6 +47,11 @@ class Order
      * @ORM\Column(type="text", nullable=true)
      */
     private $payment_details;
+    
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $status;
 
     public function getId(): ?int
     {
@@ -122,6 +127,18 @@ class Order
     {
         $this->payment_details = $payment_details;
 
+        return $this;
+    }
+    
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+    
+    public function setStatus(?string $status): self
+    {
+        $this->status = $status;
+        
         return $this;
     }
 }
